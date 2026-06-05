@@ -140,15 +140,22 @@ spec:
             docker push \${LATEST_IMAGE}
           """
         }
-        sh '''
+        sh """
           kubectl apply -f k8s/namespace.yaml
-          kubectl apply -f k8s/configmap.yaml  -n ${K8S_NAMESPACE}
-          kubectl apply -f k8s/secret.yaml     -n ${K8S_NAMESPACE}
-          kubectl apply -f k8s/deployment.yaml -n ${K8S_NAMESPACE}
-          kubectl apply -f k8s/service.yaml    -n ${K8S_NAMESPACE}
-          kubectl apply -f k8s/ingress.yaml    -n ${K8S_NAMESPACE}
-          kubectl rollout status deployment/${IMAGE_NAME} -n ${K8S_NAMESPACE} --timeout=300s
-        '''
+          kubectl apply -f k8s/configmap.yaml  -n \${K8S_NAMESPACE}
+          kubectl apply -f k8s/secret.yaml     -n \${K8S_NAMESPACE}
+          kubectl apply -f k8s/service.yaml    -n \${K8S_NAMESPACE}
+          kubectl apply -f k8s/ingress.yaml    -n \${K8S_NAMESPACE}
+
+          # Inject the exact build-number tag so kubectl detects a spec change and rolls out
+          sed 's|harbor.rmwhs.space/apps/rmw-llc-consulting:latest|\${FULL_IMAGE}|g' k8s/deployment.yaml \\
+            | kubectl apply -f - -n \${K8S_NAMESPACE}
+
+          # Delete the existing pod immediately — don't wait for the rolling update window
+          kubectl delete pod -l app=\${IMAGE_NAME} -n \${K8S_NAMESPACE} --ignore-not-found
+
+          kubectl rollout status deployment/\${IMAGE_NAME} -n \${K8S_NAMESPACE} --timeout=300s
+        """
       }
     }
 
