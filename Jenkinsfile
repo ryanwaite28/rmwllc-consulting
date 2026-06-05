@@ -147,11 +147,13 @@ spec:
           kubectl apply -f k8s/service.yaml    -n \${K8S_NAMESPACE}
           kubectl apply -f k8s/ingress.yaml    -n \${K8S_NAMESPACE}
 
-          # Inject the exact build-number tag — kubectl detects the image change and triggers a rollout
-          sed 's|harbor.rmwhs.space/apps/rmw-llc-consulting:latest|\${FULL_IMAGE}|g' k8s/deployment.yaml \\
-            | kubectl apply -f - -n \${K8S_NAMESPACE}
+          # Apply the deployment manifest (creates it on first run, no-ops on subsequent)
+          kubectl apply -f k8s/deployment.yaml -n ${K8S_NAMESPACE}
 
-          kubectl rollout status deployment/\${IMAGE_NAME} -n \${K8S_NAMESPACE} --timeout=300s
+          # Pin the deployment to the exact build-number tag — always triggers a new rollout
+          kubectl set image deployment/${IMAGE_NAME} ${IMAGE_NAME}=${FULL_IMAGE} -n ${K8S_NAMESPACE}
+
+          kubectl rollout status deployment/${IMAGE_NAME} -n ${K8S_NAMESPACE} --timeout=300s
         """
       }
     }
