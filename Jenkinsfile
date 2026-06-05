@@ -80,12 +80,12 @@ spec:
           ]]
         ) {
           sh '''
-            kubectl create namespace ${K8S_NAMESPACE} --dry-run=client -o yaml | kubectl apply -f -
+            kubectl create namespace $K8S_NAMESPACE --dry-run=client -o yaml | kubectl apply -f -
             kubectl create secret docker-registry harbor-credentials \
-              --docker-server=${HARBOR_REGISTRY} \
-              --docker-username=${HARBOR_USER} \
-              --docker-password=${HARBOR_PASS} \
-              --namespace=${K8S_NAMESPACE} \
+              --docker-server=$HARBOR_REGISTRY \
+              --docker-username=$HARBOR_USER \
+              --docker-password=$HARBOR_PASS \
+              --namespace=$K8S_NAMESPACE \
               --dry-run=client -o yaml | kubectl apply -f -
           '''
         }
@@ -108,17 +108,17 @@ spec:
           ]]
         ) {
           sh '''
-            kubectl create secret generic ${IMAGE_NAME}-secret \
-              --from-literal=SMTP_USER=${MAILPIT_USER} \
-              --from-literal=SMTP_PASSWORD=${MAILPIT_PASSWORD} \
-              --namespace=${K8S_NAMESPACE} \
+            kubectl create secret generic $IMAGE_NAME-secret \
+              --from-literal=SMTP_USER=$MAILPIT_USER \
+              --from-literal=SMTP_PASSWORD=$MAILPIT_PASSWORD \
+              --namespace=$K8S_NAMESPACE \
               --dry-run=client -o yaml | kubectl apply -f -
           '''
         }
       }
     }
 
-    stage('Build, Push & Deploy') {
+    stage('Build & Push') {
       steps {
         withVault(
           configuration: [
@@ -133,28 +133,28 @@ spec:
             ]
           ]]
         ) {
-          sh """
-            echo "\${HARBOR_PASS}" | docker login \${HARBOR_REGISTRY} -u \${HARBOR_USER} --password-stdin
-            docker build -t \${FULL_IMAGE} -t \${LATEST_IMAGE} .
-            docker push \${FULL_IMAGE}
-            docker push \${LATEST_IMAGE}
-          """
+          sh '''
+            echo "$HARBOR_PASS" | docker login $HARBOR_REGISTRY -u $HARBOR_USER --password-stdin
+            docker build -t $FULL_IMAGE -t $LATEST_IMAGE .
+            docker push $FULL_IMAGE
+            docker push $LATEST_IMAGE
+          '''
         }
-        sh """
+      }
+    }
+
+    stage('Deploy') {
+      steps {
+        sh '''
           kubectl apply -f k8s/namespace.yaml
-          kubectl apply -f k8s/configmap.yaml  -n \${K8S_NAMESPACE}
-          kubectl apply -f k8s/secret.yaml     -n \${K8S_NAMESPACE}
-          kubectl apply -f k8s/service.yaml    -n \${K8S_NAMESPACE}
-          kubectl apply -f k8s/ingress.yaml    -n \${K8S_NAMESPACE}
-
-          # Apply the deployment manifest (creates it on first run, no-ops on subsequent)
-          kubectl apply -f k8s/deployment.yaml -n ${K8S_NAMESPACE}
-
-          # Pin the deployment to the exact build-number tag — always triggers a new rollout
-          kubectl set image deployment/${IMAGE_NAME} ${IMAGE_NAME}=${FULL_IMAGE} -n ${K8S_NAMESPACE}
-
-          kubectl rollout status deployment/${IMAGE_NAME} -n ${K8S_NAMESPACE} --timeout=300s
-        """
+          kubectl apply -f k8s/configmap.yaml  -n $K8S_NAMESPACE
+          kubectl apply -f k8s/secret.yaml     -n $K8S_NAMESPACE
+          kubectl apply -f k8s/deployment.yaml -n $K8S_NAMESPACE
+          kubectl apply -f k8s/service.yaml    -n $K8S_NAMESPACE
+          kubectl apply -f k8s/ingress.yaml    -n $K8S_NAMESPACE
+          kubectl set image deployment/$IMAGE_NAME $IMAGE_NAME=$FULL_IMAGE -n $K8S_NAMESPACE
+          kubectl rollout status deployment/$IMAGE_NAME -n $K8S_NAMESPACE --timeout=300s
+        '''
       }
     }
 
@@ -162,7 +162,7 @@ spec:
 
   post {
     success {
-      echo "Deployed ${FULL_IMAGE} → https://rmwllc-consulting.com"
+      echo "Deployed $FULL_IMAGE → https://rmwllc-consulting.com"
     }
     failure {
       echo "Pipeline failed."
