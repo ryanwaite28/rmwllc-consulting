@@ -2,7 +2,7 @@
 
 Systems Architect & Software Engineer
 
-<ryanwaite08@gmail.com> | Gaithersburg, MD | (240) 271-7889
+<ryanwaite08@gmail.com> | Gaithersburg, MD | (240) 271-7889 | [https://www.linkedin.com/in/ryanwaite28/](https://www.linkedin.com/in/ryanwaite28/)
 
 **PROFESSIONAL SUMMARY**
 
@@ -106,8 +106,8 @@ University of Maryland Global Campus | 2020 - 2021
 
 **CERTIFICATIONS**
 
-**AWS Solutions Architect Associate** | Amazon Web Services | March 2025
+**AWS Solutions Architect Associate** | Amazon Web Services | March 2025 | https://www.credly.com/badges/417801a1-e813-4733-bf84-05b0b714af0d
 
-**AWS Certified Developer Associate** | Amazon Web Services | June 2025
+**AWS Certified Developer Associate** | Amazon Web Services | June 2025 | https://www.credly.com/badges/a6ad1896-0b57-4fe6-adcc-742dea679250
 
-**AWS Sysops Admin Associate** | Amazon Web Services | August 2025
+**AWS Sysops Admin Associate** | Amazon Web Services | August 2025 | https://www.credly.com/badges/db1ba20d-4ea4-45ac-a199-d6637e9a9695

@@ -1,10 +1,13 @@
+import Image from 'next/image'
+
 const certs = [
   {
     title: 'AWS Solutions Architect',
     subtitle: 'Associate',
     issuer: 'Amazon Web Services',
-    date: 'March 2025',
-    badgeColor: 'from-orange-500 to-amber-500',
+    date: 'March 2025 · Expires March 2028',
+    image: '/architect.aws.png',
+    credly: 'https://www.credly.com/badges/417801a1-e813-4733-bf84-05b0b714af0d',
     description:
       'Designing distributed systems on AWS — compute, storage, database, networking, and high-availability patterns.',
   },
@@ -13,7 +16,8 @@ const certs = [
     subtitle: 'Associate',
     issuer: 'Amazon Web Services',
     date: 'June 2025',
-    badgeColor: 'from-yellow-500 to-orange-400',
+    image: '/developer.aws.png',
+    credly: 'https://www.credly.com/badges/a6ad1896-0b57-4fe6-adcc-742dea679250',
     description:
       'Development and deployment of cloud-native applications using AWS developer tools, SDKs, and CI/CD services.',
   },
@@ -22,7 +26,8 @@ const certs = [
     subtitle: 'Associate',
     issuer: 'Amazon Web Services',
     date: 'August 2025',
-    badgeColor: 'from-amber-600 to-yellow-500',
+    image: '/sysops.aws.png',
+    credly: 'https://www.credly.com/badges/db1ba20d-4ea4-45ac-a199-d6637e9a9695',
     description:
       'Operations, monitoring, automation, and management of AWS environments at enterprise scale.',
   },
@@ -46,35 +51,57 @@ export default function Certifications() {
         <div className="max-w-2xl mb-16">
           <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">Credentials</h2>
           <p className="text-slate-400 text-lg leading-relaxed">
-            Three AWS Associate certifications earned in 2025, alongside hands-on AI operations
-            expertise used in production at Capital One.
+            Three AWS Associate certifications earned in 2025, verified on Credly. Click any card
+            to view the official badge.
           </p>
         </div>
 
-        {/* AWS Certs */}
+        {/* AWS Cert Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
           {certs.map((c) => (
-            <div
+            <a
               key={c.title}
-              className="bg-slate-800 rounded-2xl p-7 border border-slate-700 hover:border-slate-600 transition-colors"
+              href={c.credly}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group bg-slate-800 rounded-2xl overflow-hidden border border-slate-700 hover:border-blue-500/50 transition-all hover:shadow-lg hover:shadow-blue-500/10 block"
             >
-              <div
-                className={`w-14 h-14 rounded-xl bg-gradient-to-br ${c.badgeColor} flex items-center justify-center mb-5`}
-              >
-                <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z" />
-                </svg>
+              {/* Cert card image */}
+              <div className="relative w-full aspect-video bg-slate-700 overflow-hidden">
+                <Image
+                  src={c.image}
+                  alt={`${c.title} ${c.subtitle} certification`}
+                  fill
+                  className="object-cover object-top group-hover:scale-105 transition-transform duration-300"
+                  sizes="(max-width: 768px) 100vw, 33vw"
+                />
               </div>
-              <h3 className="text-white font-bold text-base leading-tight">
-                {c.title}
-                <br />
-                <span className="text-slate-400 font-normal text-sm">{c.subtitle}</span>
-              </h3>
-              <div className="text-slate-500 text-sm mt-1 mb-4">
-                {c.issuer} · {c.date}
+
+              {/* Card content */}
+              <div className="p-6">
+                <div className="flex items-start justify-between gap-3 mb-3">
+                  <div>
+                    <h3 className="text-white font-bold text-base leading-tight">
+                      {c.title}
+                    </h3>
+                    <div className="text-blue-400 font-medium text-sm">{c.subtitle}</div>
+                  </div>
+                  {/* Verify arrow */}
+                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-blue-600/20 group-hover:bg-blue-600 flex items-center justify-center transition-colors">
+                    <svg className="w-4 h-4 text-blue-400 group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                  </div>
+                </div>
+                <div className="text-slate-500 text-xs mb-3">
+                  {c.issuer} · {c.date}
+                </div>
+                <p className="text-slate-400 text-sm leading-relaxed">{c.description}</p>
+                <div className="mt-4 text-xs font-medium text-blue-400 group-hover:text-blue-300 transition-colors">
+                  Verify on Credly →
+                </div>
               </div>
-              <p className="text-slate-400 text-sm leading-relaxed">{c.description}</p>
-            </div>
+            </a>
           ))}
         </div>
 

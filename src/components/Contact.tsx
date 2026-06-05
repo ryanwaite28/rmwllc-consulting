@@ -1,6 +1,10 @@
 'use client'
 import { useState } from 'react'
 
+const FORMSPREE_ENDPOINT = 'https://formspree.io/f/mgobvjge'
+
+const CONTACT_EMAIL = 'ryanmyronwaite.llc@gmail.com'
+
 const serviceOptions = [
   'AI-Assisted Engineering',
   'AWS Cloud Architecture',
@@ -8,7 +12,7 @@ const serviceOptions = [
   'DevOps & Infrastructure',
   'Data Engineering',
   'Technical Leadership / Mentorship',
-  'Not sure yet — let&apos;s talk',
+  "Not sure yet — let's talk",
 ]
 
 type FormState = {
@@ -41,12 +45,15 @@ export default function Contact() {
     e.preventDefault()
     setStatus('loading')
     try {
-      const res = await fetch('/api/contact', {
+      const res = await fetch(FORMSPREE_ENDPOINT, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
         body: JSON.stringify(form),
       })
-      if (!res.ok) throw new Error('Request failed')
+      if (!res.ok) throw new Error('Submission failed')
       setStatus('success')
       setForm({ name: '', email: '', company: '', service: '', message: '' })
     } catch {
@@ -75,8 +82,8 @@ export default function Contact() {
                     </svg>
                   ),
                   label: 'Email',
-                  value: 'ryanwaite28@gmail.com',
-                  href: 'mailto:ryanwaite28@gmail.com',
+                  value: CONTACT_EMAIL,
+                  href: `mailto:${CONTACT_EMAIL}`,
                 },
                 {
                   icon: (
@@ -131,8 +138,7 @@ export default function Contact() {
                   </div>
                   <h3 className="text-xl font-bold text-slate-900 mb-2">Message Sent</h3>
                   <p className="text-slate-600 mb-6">
-                    Thanks for reaching out. I&apos;ll review your message and be in touch within 24
-                    hours.
+                    Thanks for reaching out. I&apos;ll be in touch within 24 hours.
                   </p>
                   <button
                     onClick={() => setStatus('idle')}
@@ -175,9 +181,7 @@ export default function Contact() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-1.5">
-                    Company
-                  </label>
+                  <label className="block text-sm font-medium text-slate-700 mb-1.5">Company</label>
                   <input
                     name="company"
                     value={form.company}
@@ -199,9 +203,7 @@ export default function Contact() {
                   >
                     <option value="">Select a service...</option>
                     {serviceOptions.map((o) => (
-                      <option key={o} value={o}>
-                        {o.replace(/&apos;/g, "'")}
-                      </option>
+                      <option key={o} value={o}>{o}</option>
                     ))}
                   </select>
                 </div>
@@ -224,8 +226,8 @@ export default function Contact() {
                 {status === 'error' && (
                   <div className="bg-red-50 border border-red-200 rounded-xl px-4 py-3 text-red-700 text-sm">
                     Something went wrong. Please try again or email me directly at{' '}
-                    <a href="mailto:ryanwaite28@gmail.com" className="underline">
-                      ryanwaite28@gmail.com
+                    <a href={`mailto:${CONTACT_EMAIL}`} className="underline">
+                      {CONTACT_EMAIL}
                     </a>
                     .
                   </div>
