@@ -1,0 +1,78 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rmw-llc-consulting
+  namespace: rmw-llc-consulting
+  labels:
+    app: rmw-llc-consulting
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rmw-llc-consulting
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  template:
+    metadata:
+      labels:
+        app: rmw-llc-consulting
+      annotations:
+        prometheus.io/scrape: "false"
+    spec:
+      imagePullSecrets:
+        - name: harbor-credentials
+      tolerations:
+        - key: dedicated
+          operator: Equal
+          value: apps
+          effect: NoSchedule
+      nodeSelector:
+        kubernetes.io/hostname: rmw-home-server
+      containers:
+        - name: rmw-llc-consulting
+          image: harbor.rmwhs.space/apps/rmw-llc-consulting:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+              name: http
+          envFrom:
+            - configMapRef:
+                name: rmw-llc-consulting-config
+          env:
+            # SMTP credentials injected from Vault via pipeline → Kubernetes secret
+            - name: SMTP_USER
+              valueFrom:
+                secretKeyRef:
+                  name: rmw-llc-consulting-secret
+                  key: SMTP_USER
+                  optional: true   # Mailpit requires no auth; field is optional
+            - name: SMTP_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: rmw-llc-consulting-secret
+                  key: SMTP_PASSWORD
+                  optional: true
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 3000
+            initialDelaySeconds: 15
+            periodSeconds: 10
+            failureThreshold: 3
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 3000
+            initialDelaySeconds: 30
+            periodSeconds: 30
+            failureThreshold: 3

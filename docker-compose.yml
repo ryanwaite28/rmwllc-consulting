@@ -1,0 +1,31 @@
+services:
+  app:
+    build:
+      context: .
+      args:
+        SKIP_UNIT_TESTS: "true"   # skip tests in local dev build for speed
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env.local          # local overrides — never committed
+    environment:
+      NODE_ENV: development
+      SMTP_HOST: mailpit
+      SMTP_PORT: "1025"
+      SMTP_FROM: "noreply@rmwllc-consulting.com"
+      CONTACT_EMAIL: "ryanwaite28@gmail.com"
+    depends_on:
+      - mailpit
+    develop:
+      watch:
+        - action: rebuild
+          path: .
+          ignore:
+            - node_modules/
+            - .next/
+
+  mailpit:
+    image: axllent/mailpit:latest
+    ports:
+      - "1025:1025"   # SMTP
+      - "8025:8025"   # Web UI → http://localhost:8025

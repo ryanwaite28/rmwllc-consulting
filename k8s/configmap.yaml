@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: rmw-llc-consulting-config
+  namespace: rmw-llc-consulting
+data:
+  NODE_ENV: production
+  PORT: "3000"
+  HOSTNAME: "0.0.0.0"
+  # SMTP connection (non-sensitive) — credentials come from the Kubernetes secret
+  SMTP_HOST: "email-mailpit.email-mailpit.svc.cluster.local"
+  SMTP_PORT: "1025"
+  SMTP_FROM: "noreply@rmwllc-consulting.com"
+  CONTACT_EMAIL: "ryanwaite28@gmail.com"

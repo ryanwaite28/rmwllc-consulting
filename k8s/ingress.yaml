@@ -1,0 +1,27 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: rmw-llc-consulting
+  namespace: rmw-llc-consulting
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
+    nginx.ingress.kubernetes.io/proxy-body-size: "10m"
+spec:
+  ingressClassName: nginx-external
+  tls:
+    - hosts:
+        - rmwllc-consulting.com
+      secretName: rmw-llc-consulting-tls
+  rules:
+    - host: rmwllc-consulting.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: rmw-llc-consulting
+                port:
+                  number: 3000
