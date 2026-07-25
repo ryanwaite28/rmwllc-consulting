@@ -6,12 +6,12 @@ const FORMSPREE_ENDPOINT = 'https://formspree.io/f/mgobvjge'
 const CONTACT_EMAIL = 'ryanmyronwaite.llc@gmail.com'
 
 const serviceOptions = [
-  'AI-Assisted Engineering',
-  'AWS Cloud Architecture',
-  'Full-Stack Development',
-  'DevOps & Infrastructure',
-  'Data Engineering',
-  'Technical Leadership / Mentorship',
+  'Architectural & AI-Speed Audit (one-time)',
+  'Async Advisory Retainer',
+  'Embedded Systems Architect Retainer',
+  'AI Dev Workflows / Spec-Driven Development',
+  'Cloud Migration & Cost Optimization',
+  'System Scalability & Event-Driven Architecture',
   "Not sure yet — let's talk",
 ]
 
@@ -67,10 +67,12 @@ export default function Contact() {
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-16">
           {/* Left column */}
           <div className="lg:col-span-2">
-            <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">Start a Project</h2>
+            <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">
+              Ready to Modernize Your Technical Stack?
+            </h2>
             <p className="text-slate-600 leading-relaxed mb-10">
-              Have a project to architect, a system to modernize, or a team to enable? Tell me
-              what you&apos;re working on — I respond within 24 hours.
+              Schedule a 20-minute discovery call to discuss your architecture challenge or book
+              an initial Tech Audit. I respond within 24 hours.
             </p>
 
             <div className="space-y-6">
@@ -166,7 +168,7 @@ export default function Contact() {
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-slate-700 mb-1.5">
-                      Email <span className="text-red-500">*</span>
+                      Work Email <span className="text-red-500">*</span>
                     </label>
                     <input
                       name="email"
@@ -193,7 +195,7 @@ export default function Contact() {
 
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-1.5">
-                    Service of Interest
+                    Current Technical Challenge
                   </label>
                   <select
                     name="service"
@@ -201,7 +203,7 @@ export default function Contact() {
                     onChange={handleChange}
                     className="w-full px-4 py-3 border border-slate-300 rounded-xl text-slate-900 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
                   >
-                    <option value="">Select a service...</option>
+                    <option value="">Select an area...</option>
                     {serviceOptions.map((o) => (
                       <option key={o} value={o}>{o}</option>
                     ))}
@@ -248,7 +250,7 @@ export default function Contact() {
                     </>
                   ) : (
                     <>
-                      Send Message
+                      Book a Discovery Call
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                       </svg>
