@@ -3,6 +3,7 @@ name: Deploy Next.js with Custom Config
 on:
   push:
     branches: ["main"] # Runs every time you push to the main branch
+  workflow_dispatch:
 
 permissions:
   contents: read
