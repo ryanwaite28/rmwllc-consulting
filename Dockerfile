@@ -13,6 +13,7 @@ WORKDIR /app
 
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
+COPY deploy.next.config.mjs next.config.mjs
 
 RUN if [ "$SKIP_UNIT_TESTS" = "true" ]; then \
       echo "WARNING: unit tests skipped — do not deploy a skipped-test build"; \
