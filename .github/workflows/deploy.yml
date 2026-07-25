@@ -36,7 +36,7 @@ jobs:
           NEXT_CONFIG_SRC: ./next.config.prod.js
         run: |
           # Alternative safety step: overwrite default config if Next_CONFIG_SRC isn't honored by your version
-          # cp next.config.prod.js next.config.js
+          cp ./next.config.prod.js ./next.config.js
           npm run build
 
       - name: Setup Pages
