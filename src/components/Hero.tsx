@@ -21,9 +21,9 @@ export default function Hero() {
 
             {/* Headline */}
             <h1 className="text-4xl sm:text-5xl lg:text-5xl xl:text-6xl font-bold text-white leading-[1.1] tracking-tight mb-6">
-              Fractional Systems Architecture
+              Fractional Software Engineering & Systems Architecture
               <br />
-              <span className="text-blue-400">&amp; AI Operations</span>
+              <span className="text-blue-400">Using AI Workflows</span>
             </h1>
 
             <p className="text-lg sm:text-xl text-slate-400 mb-10 leading-relaxed">
