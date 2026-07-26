@@ -4,7 +4,7 @@ const nextConfig = {
   images: {
     unoptimized: true, // Required because Next.js image optimization needs a server
   },
-  basePath: '/rmwllc-consulting',
+  // basePath: '/rmwllc-consulting',
 }
 
 export default nextConfig
