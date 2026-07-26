@@ -1,4 +1,6 @@
 import Image from 'next/image'
+import Icon from '../../public/icon-1.jpg'
+const assetsBasePath = process.env.NEXT_PUBLIC_BASEPATH || '';
 
 export default function Hero() {
   return (
@@ -74,7 +76,7 @@ export default function Hero() {
               {/* Photo frame */}
               <div className="relative w-72 h-80 sm:w-80 sm:h-96 lg:w-[340px] lg:h-[420px] rounded-2xl overflow-hidden border border-blue-500/25 shadow-2xl">
                 <Image
-                  src="/icon-1.jpg"
+                  src={Icon}
                   alt="Ryan M. Waite — Systems Architect & Software Engineer"
                   fill
                   className="object-cover object-top"

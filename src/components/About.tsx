@@ -1,4 +1,8 @@
 import Image from 'next/image'
+import Bachelors from '../../public/bachelors.degree.jpg'
+import Masters from '../../public/masters.degree.jpg'
+
+const assetsBasePath = process.env.NEXT_PUBLIC_BASEPATH || '';
 
 const techGroups = [
   {
@@ -21,7 +25,7 @@ const techGroups = [
     label: 'AI Tooling',
     items: ['Claude Code', 'Windsurf', 'SDD / OpenSpec', 'Prompt Engineering'],
   },
-]
+];
 
 export default function About() {
   return (
@@ -70,7 +74,8 @@ export default function About() {
                     school: 'University of Maryland Global Campus',
                     period: '2023–2024',
                     color: 'bg-blue-600',
-                    image: '/masters.degree.jpg',
+                    link: assetsBasePath + '/masters.degree.jpg',
+                    image: Masters,
                   },
                   {
                     degree: 'BS',
@@ -78,12 +83,13 @@ export default function About() {
                     school: 'University of Maryland Global Campus',
                     period: '2020–2021',
                     color: 'bg-slate-700',
-                    image: '/bachelors.degree.jpg',
+                    link: assetsBasePath + '/bachelors.degree.jpg',
+                    image: Bachelors,
                   },
                 ].map((ed) => (
                   <a
                     key={ed.degree}
-                    href={ed.image}
+                    href={ed.link}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-start gap-4 group"

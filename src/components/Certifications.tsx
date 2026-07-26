@@ -1,4 +1,8 @@
-import Image from 'next/image'
+import Image from 'next/image';
+
+import SAA from '../../public/architect.aws.png'
+import DEA from '../../public/developer.aws.png'
+import SOA from '../../public/sysops.aws.png'
 
 const certs = [
   {
@@ -6,7 +10,8 @@ const certs = [
     subtitle: 'Associate',
     issuer: 'Amazon Web Services',
     date: 'March 2025 · Expires March 2028',
-    image: '/architect.aws.png',
+    link: '/architect.aws.png',
+    image: SAA,
     credly: 'https://www.credly.com/badges/417801a1-e813-4733-bf84-05b0b714af0d',
     description:
       'Designing distributed systems on AWS — compute, storage, database, networking, and high-availability patterns.',
@@ -16,7 +21,8 @@ const certs = [
     subtitle: 'Associate',
     issuer: 'Amazon Web Services',
     date: 'June 2025',
-    image: '/developer.aws.png',
+    link: '/developer.aws.png',
+    image: DEA,
     credly: 'https://www.credly.com/badges/a6ad1896-0b57-4fe6-adcc-742dea679250',
     description:
       'Development and deployment of cloud-native applications using AWS developer tools, SDKs, and CI/CD services.',
@@ -26,7 +32,8 @@ const certs = [
     subtitle: 'Associate',
     issuer: 'Amazon Web Services',
     date: 'August 2025',
-    image: '/sysops.aws.png',
+    link: '/sysops.aws.png',
+    image: SOA,
     credly: 'https://www.credly.com/badges/db1ba20d-4ea4-45ac-a199-d6637e9a9695',
     description:
       'Operations, monitoring, automation, and management of AWS environments at enterprise scale.',
