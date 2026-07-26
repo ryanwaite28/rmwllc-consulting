@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import Icon from '../../public/icon-1.jpg'
-const assetsBasePath = process.env.NEXT_PUBLIC_BASEPATH || '';
+
 
 export default function Hero() {
   return (
